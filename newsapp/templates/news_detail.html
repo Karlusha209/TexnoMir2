@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ news.title }}</h1>
+<p>{{ news.pub_date|date:"d.m.Y H:i" }} | Автор: {{ news.author.username }}</p>
+{% if news.image %}
+    <img src="{{ news.image.url }}" width="300" class="img-fluid">
+{% endif %}
+<p>{{ news.content|linebreaks }}</p>
+
+<h3>Комментарии</h3>
+{% for c in comments %}
+    <div class="border p-2 mb-2">
+        <strong>{{ c.user.username }}</strong> ({{ c.created_date|date:"d.m.Y H:i" }}):<br>
+        {{ c.text }}
+    </div>
+{% empty %}
+    <p>Нет комментариев.</p>
+{% endfor %}
+
+{% if user.is_authenticated %}
+    <h4>Добавить комментарий</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+{% else %}
+    <p><a href="/login/">Войдите</a>, чтобы комментировать.</p>
+{% endif %}
+{% endblock %}

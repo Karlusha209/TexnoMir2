@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1></h1>
+<p></p>
+<h3>Последние новости</h3>
+{% for item in latest_news %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <h5>{{ item.title }}</h5>
+            <p>{{ item.content|truncatewords:20 }}</p>
+            <small class="text-muted">Автор: {{ item.author.username }}, {{ item.pub_date }}</small>
+        </div>
+    </div>
+{% empty %}
+    <p>Новостей пока нет.</p>
+{% endfor %}
+{% endblock %}
